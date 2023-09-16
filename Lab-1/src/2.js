@@ -17,16 +17,7 @@ if (ebutton)
             return;        
         }
         const keyword = document.getElementById("keyword");
-        //check keyword
-        for (let i = 0; i < keyword.value.length; i ++){
-            for (let j = i+1; j < keyword.value.length; j ++){
-                if (keyword.value.charAt(i) == keyword.value.charAt(j)){
-                    alert("input a valid keyword with no repeating letters");
-                    return;
-                }
-            }
-
-        }
+      
         const message = document.getElementById("message");
         let goodMessage = false;
         //check message
@@ -51,9 +42,21 @@ if (ebutton)
 
         const newKeyword = keyword.value.toUpperCase();
         // changing the alphabet
+
         let newAlphabet = [];
+        let addLetter = true;
         for (let i = 0; i < newKeyword.length; i ++){
-            newAlphabet[i] = newKeyword.charAt(i);
+            addLetter = true;
+            for (let j = 0; j < newAlphabet.length; j++){
+                if (newKeyword.charAt(i)==newAlphabet[j]){
+                    addLetter = false;
+                }
+                
+            }  
+            if (addLetter){
+                newAlphabet[newAlphabet.length] = newKeyword.charAt(i);
+            } 
+            
         }
 
         let letterToAdd = false;
@@ -69,14 +72,15 @@ if (ebutton)
                 newAlphabet[newAlphabet.length] = al[i];
             }
         }
-
+        console.log(al);
+        console.log(newAlphabet);
         // encrypting the message
         newMessage = message.value.toUpperCase();
         let code = "";
 
         for (let i = 0; i < newMessage.length; i++) {
-            for (let j = 0; j < newAlphabet.length; j++){
-                if (newMessage.charAt(i) == newAlphabet[j]){
+            for (let j = 0; j < al.length; j++){
+                if (newMessage.charAt(i) == al[j]){
                     let newIndex = j + parseInt(key.value);
                     if (newIndex >= newAlphabet.length){
                         newIndex =  newIndex - newAlphabet.length ;
@@ -116,15 +120,9 @@ if (cbutton)
 
         const keyword = document.getElementById("keyword");
         //check keyword
-        for (let i = 0; i < keyword.value.length; i ++){
-            for (let j = i+1; j < keyword.value.length; j ++){
-                if (keyword.value.charAt(i) == keyword.value.charAt(j)){
-                    alert("input a valid keyword with no repeating letters");
-                    return;
-                }
-            }
+       
 
-        }
+        
         const message = document.getElementById("message");
         const cryptogram = document.getElementById("cryptogram");
         //check cryptogram
@@ -144,10 +142,19 @@ if (cbutton)
         const newKeyword = keyword.value.toUpperCase();
         // changing the alphabet
         let newAlphabet = [];
+        let addLetter = true;
         for (let i = 0; i < newKeyword.length; i ++){
-            newAlphabet[i] = newKeyword.charAt(i);
+            addLetter = true;
+            for (let j = 0; j < newAlphabet.length; j++){
+                if (newKeyword.charAt(i)==newAlphabet[j]){
+                    addLetter = false;
+                }
+            }  
+            if (addLetter){
+                newAlphabet[newAlphabet.length] = newKeyword.charAt(i);
+            } 
+            
         }
-
         let letterToAdd = false;
         for (let i = 0; i < al.length; i ++){
             letterToAdd = true;
@@ -162,6 +169,8 @@ if (cbutton)
             }
         }
 
+        console.log(al);
+        console.log(newAlphabet);
         const newCrypt = cryptogram.value.toUpperCase();
         let decrypt = "";
 
@@ -173,7 +182,7 @@ if (cbutton)
                         newIndex = newAlphabet.length + newIndex;
                     }
 
-                    decrypt = decrypt.concat(newAlphabet[newIndex]);
+                    decrypt = decrypt.concat(al[newIndex]);
                 }
             }
         }
